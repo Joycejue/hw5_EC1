@@ -124,6 +124,7 @@ for word in total_word_lis_2:
 
 
 
+
 freq_dic_1 = nltk.FreqDist(real_words_1)
 freq_dic_2 = nltk.FreqDist(real_words_2)
 #dict_items([('QuasiCon', 3), ('Make', 1)......])
@@ -165,10 +166,11 @@ for item in word_account_1:
         common_word[item] = sorted_freq_dict_1[item] + sorted_freq_dict_2[item]
 
 common_word_new = {}
-common_word_lis = sorted(common_word, key=lambda x: common_word[x], reverse = True)    
+common_word_lis = sorted(common_word, key=lambda x: (common_word[x],x), reverse = True)    
 for item in common_word_lis:
     common_word_new[item] = common_word[item]
 common_keys = list(common_word_new.keys())
+print(common_word_new)
 
 
 unique_word = {}
@@ -181,10 +183,11 @@ for word in word_account_1:
 for word in word_account_2:
     unique_word[word] = sorted_freq_dict_2[word]
 unique_word_new = {}
-unique_word_lis = sorted(unique_word, key=lambda x: unique_word[x], reverse = True)    
+unique_word_lis = sorted(unique_word, key=lambda x: (unique_word[x],x), reverse = True)    
 for item in unique_word_lis:
     unique_word_new[item] = unique_word[item]
 unique_keys = list(unique_word_new.keys())
+print(unique_word_new)
 
 
 
@@ -193,7 +196,7 @@ print(("USER 1: " + username_1 +" USER 2: " + username_2 + " TWEETS ANALYZED: " 
 print(("5 MOST FREQUENT UNIQUE WORDS: " + "{}"+"({})" + " " + "{}"+"({})" + " " + "{}"+"({})" + " " + "{}"+"({})" + " " + "{}"+"({})" ).format(unique_keys[0],unique_word_new[unique_keys[0]], unique_keys[1],unique_word_new[unique_keys[1]], unique_keys[2],unique_word_new[unique_keys[2]], unique_keys[3],unique_word_new[unique_keys[3]], unique_keys[4],unique_word_new[unique_keys[4]]))
 
 
-#final version
+#final version;
 
 
 if __name__ == "__main__":
