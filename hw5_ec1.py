@@ -94,7 +94,6 @@ for word in total_word_lis_1:
 
 
 
-
 tweets_text_lis_2 = []
 for dic in data_2:
     if "text" in dic.keys():
@@ -114,6 +113,8 @@ for lis in text_token_2:
         total_word_lis_2.append(word)
 
 
+
+
 real_words_2 = []
 
 for word in total_word_lis_2:
@@ -123,24 +124,73 @@ for word in total_word_lis_2:
 
 
 
-same_word_dict = {}
-for word in real_words_1:
-    if word in real_words_2:
-        if word in same_word_dict:
-            same_word_dict[word] += 1
-        else:
-            same_word_dict[word] = 1
+freq_dic_1 = nltk.FreqDist(real_words_1)
+freq_dic_2 = nltk.FreqDist(real_words_2)
+#dict_items([('QuasiCon', 3), ('Make', 1)......])
 
-sorted_same_word = sorted(same_word_dict.items(), key = lambda x: x[1] ,reverse=True)
-
-five_most_freq = sorted_same_word[:5]
-print(("USER 1: " + username_1 +" USER 2: " + username_2 + " TWEETS ANALYZED: " + num_tweets + " 5 MOST FREQUENT COMMON WORDS: " 
-    + "{}"+"({})" + " " + "{}"+"({})" + " " + "{}"+"({})" + " " + "{}"+"({})" + " " + "{}"+"({})" ).format(five_most_freq[0][0],five_most_freq[0][1],five_most_freq[1][0],five_most_freq[1][1],five_most_freq[2][0],five_most_freq[2][1],five_most_freq[3][0],five_most_freq[3][1],five_most_freq[4][0],five_most_freq[4][1]))
+sorted_freq_1 = sorted(freq_dic_1.items(), key=lambda x: x[1], reverse = True)
+sorted_freq_2 = sorted(freq_dic_2.items(), key=lambda x: x[1], reverse = True)
+# [('the', 7),,,,,,,] list
 
 
+sorted_freq_dict_1 = {}
+for item in sorted_freq_1:
+    sorted_freq_dict_1[item[0]] = item[1]
+# {'Engineering': 1, ,,,,,,}  dict
+# print(sorted_freq_dict_1)
+sorted_freq_dict_2 = {}
+for item in sorted_freq_2:
+    sorted_freq_dict_2[item[0]] = item[1]
+# {'Engineering': 1, ,,,,,,}  dict
+# print(sorted_freq_dict_2)
 
 
 
+word_account_1 = []
+for item in sorted_freq_1:
+    word_account_1.append(item[0])
+#["a","b",,,,]list    
+
+
+    
+word_account_2 = []
+for item in sorted_freq_2:
+    word_account_2.append(item[0])
+   
+
+
+common_word = {}
+for item in word_account_1:
+    if item in word_account_2:
+        common_word[item] = sorted_freq_dict_1[item] + sorted_freq_dict_2[item]
+
+common_word_new = {}
+common_word_lis = sorted(common_word, key=lambda x: common_word[x], reverse = True)    
+for item in common_word_lis:
+    common_word_new[item] = common_word[item]
+common_keys = list(common_word_new.keys())
+
+
+unique_word = {}
+for key in common_word.keys():
+    word_account_1.remove(key)
+for key in common_word.keys():
+    word_account_2.remove(key)
+for word in word_account_1:
+    unique_word[word] = sorted_freq_dict_1[word]
+for word in word_account_2:
+    unique_word[word] = sorted_freq_dict_2[word]
+unique_word_new = {}
+unique_word_lis = sorted(unique_word, key=lambda x: unique_word[x], reverse = True)    
+for item in unique_word_lis:
+    unique_word_new[item] = unique_word[item]
+unique_keys = list(unique_word_new.keys())
+
+
+
+print(("USER 1: " + username_1 +" USER 2: " + username_2 + " TWEETS ANALYZED: " + num_tweets + "\n" + "5 MOST FREQUENT COMMON WORDS: " 
+    + "{}"+"({})" + " " + "{}"+"({})" + " " + "{}"+"({})" + " " + "{}"+"({})" + " " + "{}"+"({})" ).format(common_keys[0],common_word[common_keys[0]], common_keys[1],common_word[common_keys[1]], common_keys[2],common_word[common_keys[2]], common_keys[3],common_word[common_keys[3]], common_keys[4],common_word[common_keys[4]]))
+print(("5 MOST FREQUENT UNIQUE WORDS: " + "{}"+"({})" + " " + "{}"+"({})" + " " + "{}"+"({})" + " " + "{}"+"({})" + " " + "{}"+"({})" ).format(unique_keys[0],unique_word_new[unique_keys[0]], unique_keys[1],unique_word_new[unique_keys[1]], unique_keys[2],unique_word_new[unique_keys[2]], unique_keys[3],unique_word_new[unique_keys[3]], unique_keys[4],unique_word_new[unique_keys[4]]))
 
 
 
